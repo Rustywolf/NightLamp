@@ -1,0 +1,13 @@
+name: NightLamp
+main: codes.rusty.nightlamp.NightLamp
+version: 1.0
+commands:
+   addlamp:
+      description: Allows user to addlamp with block click
+      usage: /addlamp
+      permission: nightlamp.admin
+      permission-message: You don't have permission to use this command!
+permissions:
+    nightlamp.admin:
+        description: Allows user to use /addlamp
+        default: op
