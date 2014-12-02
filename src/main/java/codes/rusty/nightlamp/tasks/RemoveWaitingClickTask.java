@@ -17,7 +17,7 @@ public class RemoveWaitingClickTask implements Runnable {
     
     @Override
     public void run() {
-        if (plugin.waitingForClick.contains(name)) {
+        if (plugin.waitingForClick.containsKey(name)) {
             Player player = Bukkit.getPlayerExact(name);
             player.sendMessage(ChatColor.RED + "Took too long to click a block!");
             plugin.waitingForClick.remove(name);

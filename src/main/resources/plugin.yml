@@ -3,8 +3,18 @@ main: codes.rusty.nightlamp.NightLamp
 version: 1.0
 commands:
    addlamp:
-      description: Allows user to addlamp with block click
+      description: Allows user to add lamps with block click
       usage: /addlamp
+      permission: nightlamp.admin
+      permission-message: You don't have permission to use this command!
+   savelamps:
+      description: Allows user to save the lamp data
+      usage: /savelamps
+      permission: nightlamp.admin
+      permission-message: You don't have permission to use this command!
+   addtoggle:
+      description: Allows user to add lamps with block click (toggle)
+      usage: /addtoggle
       permission: nightlamp.admin
       permission-message: You don't have permission to use this command!
 permissions:

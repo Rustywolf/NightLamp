@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 public class AddLamp implements CommandExecutor {
     
-    private NightLamp plugin;
+    private final NightLamp plugin;
     
     public AddLamp(NightLamp plugin) {
         this.plugin = plugin;
@@ -21,7 +21,7 @@ public class AddLamp implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            plugin.waitingForClick.add(player.getName());
+            plugin.waitingForClick.put(player.getName(), false);
             Bukkit.getScheduler().runTaskLater(plugin, new RemoveWaitingClickTask(plugin, player.getName()), 5*20);
             sender.sendMessage(ChatColor.GREEN + "Click the block you wish to add within the next 5 seconds.");
             return true;

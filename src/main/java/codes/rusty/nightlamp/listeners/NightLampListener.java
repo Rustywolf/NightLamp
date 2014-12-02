@@ -12,8 +12,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldSaveEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
@@ -52,15 +54,25 @@ public class NightLampListener implements Listener {
         }
     }
     
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event) {
+        if (event.getBlock().getType() == Material.PISTON_STICKY_BASE || event.getBlock().getType() == Material.PISTON_BASE) {
+            event.setCancelled(true);
+        }
+    }
+    
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Block b = event.getClickedBlock();
             if (b.getType() == Material.REDSTONE_LAMP_OFF || b.getType() == Material.REDSTONE_LAMP_ON) {
-                if (plugin.waitingForClick.contains(event.getPlayer().getName())) {
+                if (plugin.waitingForClick.containsKey(event.getPlayer().getName())) {
+                    if (!plugin.waitingForClick.get(event.getPlayer().getName())) {
+                        plugin.waitingForClick.remove(event.getPlayer().getName());
+                    }
+                    
                     event.setCancelled(true);
                     plugin.addBlock(b);
-                    plugin.waitingForClick.remove(event.getPlayer().getName());
                     event.getPlayer().sendMessage(ChatColor.GREEN + "NightLamp added!");
                 }
             }
@@ -82,6 +94,13 @@ public class NightLampListener implements Listener {
     public void onRedstone(BlockRedstoneEvent event) {
         if (plugin.containsBlock(event.getBlock())) {
             event.setNewCurrent(5);
+        }
+    }
+    
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        if (plugin.waitingForClick.containsKey(event.getPlayer().getName())) {
+            plugin.waitingForClick.remove(event.getPlayer().getName());
         }
     }
 }

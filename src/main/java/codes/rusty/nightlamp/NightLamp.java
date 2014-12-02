@@ -1,6 +1,8 @@
 package codes.rusty.nightlamp;
 
 import codes.rusty.nightlamp.commands.AddLamp;
+import codes.rusty.nightlamp.commands.AddToggle;
+import codes.rusty.nightlamp.commands.SaveLamps;
 import codes.rusty.nightlamp.listeners.NightLampListener;
 import codes.rusty.nightlamp.misc.BlockPos;
 import codes.rusty.nightlamp.tasks.LampSaveTask;
@@ -34,7 +36,7 @@ public class NightLamp extends JavaPlugin {
     private HashMultimap<UUID, BlockPos> lampLocations = HashMultimap.create();
     private HashMultimap<World, Block> loadedLamps = HashMultimap.create();
     public HashMap<World, Boolean> isNight = new HashMap<>();
-    public ArrayList<String> waitingForClick = new ArrayList<>();
+    public HashMap<String, Boolean> waitingForClick = new HashMap<>();
     
     @Override
     public void onEnable() {
@@ -45,6 +47,8 @@ public class NightLamp extends JavaPlugin {
         lampLocations = ConfigUtil.getLamps(configFile);
         
         this.getCommand("addlamp").setExecutor(new AddLamp(this));
+        this.getCommand("savelamps").setExecutor(new SaveLamps(this));
+        this.getCommand("addtoggle").setExecutor(new AddToggle(this));
         
         listener = new NightLampListener(this);
         Bukkit.getPluginManager().registerEvents(listener, plugin);

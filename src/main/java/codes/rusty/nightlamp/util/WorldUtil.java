@@ -1,6 +1,7 @@
 package codes.rusty.nightlamp.util;
 
 import com.google.common.collect.HashMultimap;
+import java.lang.reflect.Field;
 import java.util.Collection;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -108,7 +109,9 @@ public class WorldUtil {
     
     private static void setStatic(Object worldServer, boolean statix) {
         try {
-           worldServer.getClass().getField("isStatic").setBoolean(worldServer, statix);
+           Field f = worldServer.getClass().getField("isStatic");
+           f.setAccessible(true);
+           f.setBoolean(worldServer, statix);
         } catch (Exception e) {
             e.printStackTrace();
         }
