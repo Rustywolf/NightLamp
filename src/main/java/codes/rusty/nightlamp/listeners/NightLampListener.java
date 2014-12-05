@@ -54,13 +54,6 @@ public class NightLampListener implements Listener {
         }
     }
     
-    @EventHandler
-    public void onBlockPlace(BlockPlaceEvent event) {
-        if (event.getBlock().getType() == Material.PISTON_STICKY_BASE || event.getBlock().getType() == Material.PISTON_BASE) {
-            event.setCancelled(true);
-        }
-    }
-    
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
