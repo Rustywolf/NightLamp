@@ -99,7 +99,7 @@ public class WorldUtil {
     
     private static boolean getStatic(Object worldServer) {
         try {
-            return worldServer.getClass().getField("isStatic").getBoolean(worldServer);
+            return worldServer.getClass().getField("isClientSide").getBoolean(worldServer);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -109,7 +109,7 @@ public class WorldUtil {
     
     private static void setStatic(Object worldServer, boolean statix) {
         try {
-           Field f = worldServer.getClass().getField("isStatic");
+           Field f = worldServer.getClass().getField("isClientSide");
            f.setAccessible(true);
            f.setBoolean(worldServer, statix);
         } catch (Exception e) {
